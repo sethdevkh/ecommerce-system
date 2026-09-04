@@ -2,4 +2,4 @@ package com.sethdevkh.ecommerce.system.domain.valueobject;
 
 import java.util.UUID;
 
-public record CustomerId(UUID value) {}
+public record BusinessId(UUID value) {}

@@ -1,14 +1,15 @@
 package com.sethdevkh.ecommerce.system.order.service.domain.entity;
 
+import com.sethdevkh.ecommerce.system.domain.entity.BaseEntity;
 import com.sethdevkh.ecommerce.system.domain.valueobject.Money;
+import com.sethdevkh.ecommerce.system.domain.valueobject.ProductId;
 
-import java.util.Objects;
-
-public class Product {
+public class Product extends BaseEntity<ProductId> {
     private final String name;
     private final Money price;
 
-    public Product(String name, Money price) {
+    public Product(ProductId productId, String name, Money price) {
+        super.setId(productId);
         this.name = name;
         this.price = price;
     }
@@ -19,17 +20,5 @@ public class Product {
 
     public Money getPrice() {
         return price;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return Objects.equals(name, product.name) && Objects.equals(price, product.price);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, price);
     }
 }

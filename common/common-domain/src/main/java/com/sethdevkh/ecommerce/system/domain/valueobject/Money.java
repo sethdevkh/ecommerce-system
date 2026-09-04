@@ -37,10 +37,6 @@ public class Money {
         return amount;
     }
 
-    private BigDecimal setScale(BigDecimal input) {
-        return input.setScale(2, RoundingMode.HALF_EVEN);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -51,5 +47,9 @@ public class Money {
     @Override
     public int hashCode() {
         return Objects.hashCode(amount);
+    }
+
+    private BigDecimal setScale(BigDecimal input) {
+        return input.setScale(2, RoundingMode.HALF_EVEN);
     }
 }

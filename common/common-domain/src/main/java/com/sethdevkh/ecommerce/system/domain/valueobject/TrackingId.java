@@ -2,8 +2,4 @@ package com.sethdevkh.ecommerce.system.domain.valueobject;
 
 import java.util.UUID;
 
-public class TrackingId extends BaseId<UUID> {
-    public TrackingId(UUID value) {
-        super(value);
-    }
-}
+public record TrackingId(UUID value) {}
