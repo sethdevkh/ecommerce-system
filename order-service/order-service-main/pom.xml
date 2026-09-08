@@ -9,4 +9,27 @@
     </parent>
     <artifactId>order-service-main</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.sethdevkh</groupId>
+            <artifactId>order-domain-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sethdevkh</groupId>
+            <artifactId>order-application-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sethdevkh</groupId>
+            <artifactId>order-service-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sethdevkh</groupId>
+            <artifactId>order-service-persistence</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sethdevkh</groupId>
+            <artifactId>order-service-restapi</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

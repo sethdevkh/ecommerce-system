@@ -9,4 +9,11 @@
     </parent>
     <artifactId>order-service-restapi</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.sethdevkh</groupId>
+            <artifactId>order-application-service</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
