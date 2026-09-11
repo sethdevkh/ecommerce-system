@@ -2,11 +2,17 @@ package com.sethdevkh.ecommerce.system.order.service.persistence.entity;
 
 import com.sethdevkh.ecommerce.system.domain.valueobject.OrderStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "orders")
 public class OrderEntity {
@@ -22,7 +28,7 @@ public class OrderEntity {
     private List<OrderItemEntity> items;
 
     @OneToOne
-    private StreetAddressEntity streetAddress;
+    private OrderAddressEntity orderAddress;
 
     private UUID trackingId;
     private OrderStatus orderStatus;

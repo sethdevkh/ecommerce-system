@@ -1,9 +1,16 @@
 package com.sethdevkh.ecommerce.system.order.service.persistence.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "order_items")
 public class OrderItemEntity {
@@ -16,8 +23,7 @@ public class OrderItemEntity {
     private BigDecimal price;
     private BigDecimal subTotal;
 
-    @OneToOne
-    private ProductEntity product;
+    private UUID productId;
 
     @ManyToOne
     private OrderEntity order;
