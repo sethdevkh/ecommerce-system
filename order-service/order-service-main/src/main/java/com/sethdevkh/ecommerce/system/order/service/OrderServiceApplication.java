@@ -1,4 +1,4 @@
-package com.sethdevkh.ecommerce.system.order.service.main;
+package com.sethdevkh.ecommerce.system.order.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
