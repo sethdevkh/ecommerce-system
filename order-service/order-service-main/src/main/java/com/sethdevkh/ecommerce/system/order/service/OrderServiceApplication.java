@@ -6,10 +6,10 @@ import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EntityScan(basePackages = {
-        "com.sethdevkh.ecommerce.system.order.service.persistence.entity"
+        "com.sethdevkh.ecommerce.system.order.service.persistence"
 })
 @EnableJpaRepositories(basePackages = {
-        "com.sethdevkh.ecommerce.system.order.service.persistence.repository"
+        "com.sethdevkh.ecommerce.system.order.service.persistence"
 })
 @SpringBootApplication
 public class OrderServiceApplication {
