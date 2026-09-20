@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 // JPA Entity must be a POJO class (Plain Old Java Object)
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@IdClass(BusinessEntity.class)
+@IdClass(BusinessEntityId.class)
 @Entity
 @Table(name = "businesses")
 public class BusinessEntity {
@@ -28,4 +29,22 @@ public class BusinessEntity {
     private Boolean businessActive;
     private String productName;
     private BigDecimal productPrice;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        BusinessEntity that = (BusinessEntity) o;
+        return Objects.equals(businessId, that.businessId)
+                && Objects.equals(productId, that.productId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(businessId, productId);
+    }
 }

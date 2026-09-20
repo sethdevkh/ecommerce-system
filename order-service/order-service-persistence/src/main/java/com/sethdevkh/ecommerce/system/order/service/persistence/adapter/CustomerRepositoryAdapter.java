@@ -5,10 +5,12 @@ import com.sethdevkh.ecommerce.system.order.service.domain.port.output.CustomerR
 import com.sethdevkh.ecommerce.system.order.service.persistence.mapper.OrderPersistenceMapper;
 import com.sethdevkh.ecommerce.system.order.service.persistence.repositoy.CustomerJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Repository
 @RequiredArgsConstructor
 public class CustomerRepositoryAdapter implements CustomerRepository {
 
