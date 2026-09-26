@@ -10,13 +10,10 @@ import java.util.UUID;
 public record OrderItemRequest(
         @NotNull
         UUID productId,
-
         @NotNull
         Integer quantity,
-
         @NotNull
         BigDecimal price,
-
         @NotNull
         BigDecimal subTotal
 ) {

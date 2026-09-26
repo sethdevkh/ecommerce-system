@@ -32,10 +32,7 @@ public class Business extends AggregateRoot<BusinessId> {
         private List<Product> products;
         private boolean active;
 
-        private Builder() {
-        }
-
-
+        private Builder() {}
 
         public Builder id(BusinessId val) {
             id = val;

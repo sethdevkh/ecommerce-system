@@ -7,20 +7,45 @@ import com.sethdevkh.ecommerce.system.domain.valueobject.OrderItemId;
 
 public class OrderItem extends BaseEntity<OrderItemId> {
     private OrderId orderId;
+
     private final Product product;
+
     private final Integer quantity;
+
     private final Money price;
+
     private final Money subTotal;
 
-    void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
+    boolean isPriceValid() {
+        boolean isGreaterThanZero = price.isGreaterThanZero();
+        boolean isPriceConfirmed = price.equals(product.getPrice());
+        boolean isSubTotalConfirmed = price.multiply(quantity).equals(subTotal);
+        return isGreaterThanZero && isPriceConfirmed && isSubTotalConfirmed;
+    }
+
+    public void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
         this.orderId = orderId;
         super.setId(orderItemId);
     }
 
-    boolean isPriceValid() {
-        return price.isGreaterThanZero() &&
-                price.equals(product.getPrice()) &&
-                price.multiply(quantity).equals(subTotal);
+    public OrderId getOrderId() {
+        return orderId;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public Money getPrice() {
+        return price;
+    }
+
+    public Money getSubTotal() {
+        return subTotal;
     }
 
     private OrderItem(Builder builder) {
@@ -31,6 +56,7 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         price = builder.price;
         subTotal = builder.subTotal;
     }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -45,7 +71,6 @@ public class OrderItem extends BaseEntity<OrderItemId> {
 
         private Builder() {
         }
-
 
         public Builder id(OrderItemId val) {
             id = val;
@@ -80,29 +105,5 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         public OrderItem build() {
             return new OrderItem(this);
         }
-    }
-
-    public OrderId getOrderId() {
-        return orderId;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public Money getPrice() {
-        return price;
-    }
-
-    public Money getSubTotal() {
-        return subTotal;
-    }
-
-    public void setOrderId(OrderId orderId) {
-        this.orderId = orderId;
     }
 }

@@ -16,8 +16,8 @@ public record OrderCreateRequest(
         @NotNull
         OrderAddressRequest orderAddress,
         @NotNull
-        BigDecimal price,
+        List<OrderItemRequest> items,
         @NotNull
-        List<OrderItemRequest> items
+        BigDecimal price
 ) {
 }

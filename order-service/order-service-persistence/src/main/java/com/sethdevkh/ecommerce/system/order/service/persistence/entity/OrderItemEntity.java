@@ -17,16 +17,15 @@ import java.util.UUID;
 public class OrderItemEntity {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private Integer quantity;
-    private BigDecimal price;
-    private BigDecimal subTotal;
-
-    private UUID productId;
 
     @Id
     @ManyToOne
     private OrderEntity order;
+
+    private UUID productId;
+
+    private Integer quantity;
+    private BigDecimal price;
+    private BigDecimal subTotal;
 }

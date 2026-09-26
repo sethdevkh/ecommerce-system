@@ -6,10 +6,8 @@ import com.sethdevkh.ecommerce.system.order.service.domain.entity.OrderItem;
 import com.sethdevkh.ecommerce.system.order.service.persistence.entity.OrderAddressEntity;
 import com.sethdevkh.ecommerce.system.order.service.persistence.entity.OrderEntity;
 import com.sethdevkh.ecommerce.system.order.service.persistence.entity.OrderItemEntity;
-import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import java.util.Arrays;
@@ -23,23 +21,16 @@ public interface OrderPersistenceMapper {
     @Mapping(source = "businessId.value", target = "businessId")
     @Mapping(source = "price.amount", target = "price")
     @Mapping(source = "trackingId.value", target = "trackingId")
-    @Mapping(source = "failureMessages", target = "failureMessages", qualifiedByName = "mapFailureMessages")
     @Mapping(source = "deliveryAddress", target = "orderAddress")
+    @Mapping(source = "failureMessages", target = "failureMessages", qualifiedByName = "mapFailureMessages")
     OrderEntity orderToOrderEntity(Order order);
 
-    @AfterMapping
-    default void linkOrderAssociations(@MappingTarget OrderEntity orderEntity) {
-        if (orderEntity.getItems() != null) {
-            orderEntity.getItems().forEach(item -> item.setOrder(orderEntity));
-        }
-    }
+    @Mapping(target = "id", expression = "java(UUID.randomUUID())")
+    OrderAddressEntity deliveryAddressToOrderAddressEntity(StreetAddress deliveryAddress);
 
     @Named("mapFailureMessages")
     default String mapFailureMessages(List<String> failureMessages) {
-        if (failureMessages == null || failureMessages.isEmpty()) {
-            return null;
-        }
-        return String.join(",", failureMessages);
+        return failureMessages == null ? "" : String.join(",", failureMessages);
     }
 
 
@@ -67,13 +58,7 @@ public interface OrderPersistenceMapper {
 
     @Named("mapFailureMessagesToList")
     default List<String> mapFailureMessagesToList(String failureMessages) {
-        if (failureMessages == null || failureMessages.isBlank()) {
-            return null;
-        }
-        return Arrays.stream(failureMessages.split(",")).toList();
+        return failureMessages == null ? List.of("") : Arrays.stream(failureMessages.split(",")).toList();
     }
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "order", ignore = true)
-    OrderAddressEntity deliveryAddressToOrderAddressEntity(StreetAddress streetAddress);
 }

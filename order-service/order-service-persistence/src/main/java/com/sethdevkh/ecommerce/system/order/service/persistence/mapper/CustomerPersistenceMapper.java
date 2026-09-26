@@ -1,9 +1,7 @@
 package com.sethdevkh.ecommerce.system.order.service.persistence.mapper;
 
 import com.sethdevkh.ecommerce.system.order.service.domain.entity.Customer;
-import com.sethdevkh.ecommerce.system.order.service.domain.entity.Order;
 import com.sethdevkh.ecommerce.system.order.service.persistence.entity.CustomerEntity;
-import com.sethdevkh.ecommerce.system.order.service.persistence.entity.OrderEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -12,6 +10,5 @@ public interface CustomerPersistenceMapper {
 
     @Mapping(source = "id", target = "id.value")
     Customer customerEntityToCustomer(CustomerEntity customerEntity);
-
 
 }

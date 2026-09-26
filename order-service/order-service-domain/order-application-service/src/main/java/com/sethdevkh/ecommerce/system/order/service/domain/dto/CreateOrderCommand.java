@@ -7,8 +7,8 @@ import java.util.UUID;
 public record CreateOrderCommand(
         UUID customerId,
         UUID businessId,
+        BigDecimal price,
         CommandOrderAddress deliveryAddress,
-        List<CommandOrderItem> items,
-        BigDecimal price
+        List<CommandOrderItem> items
 ) {
 }

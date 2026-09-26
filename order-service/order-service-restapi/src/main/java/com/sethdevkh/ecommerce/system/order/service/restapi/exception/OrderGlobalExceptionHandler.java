@@ -11,25 +11,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class OrderGlobalExceptionHandler extends GlobalExceptionHandler {
-    // TODO: Write your exception handler when error occurred
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(OrderDomainException.class)
-    public RestApiErrorResponse<?> handleOrderDomainException(OrderDomainException ex
-    ) {
+    public RestApiErrorResponse<?> handleOrderDomainException(OrderDomainException e) {
         return RestApiErrorResponse.builder()
                 .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                .message(ex.getMessage())
+                .message(e.getMessage())
                 .build();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BusinessPersistenceException.class)
-    public RestApiErrorResponse<?> handleBusinessPersistenceException(BusinessPersistenceException ex
-    ) {
+    public RestApiErrorResponse<?> handleOrderPersistenceException(BusinessPersistenceException e) {
         return RestApiErrorResponse.builder()
                 .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                .message(ex.getMessage())
+                .message(e.getMessage())
                 .build();
     }
 

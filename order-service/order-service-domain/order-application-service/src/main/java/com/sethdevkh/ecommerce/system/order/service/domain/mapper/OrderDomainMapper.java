@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface OrderDomainMapper {
+
     @Mapping(source = "customerId", target = "customerId.value")
     @Mapping(source = "businessId", target = "businessId.value")
     @Mapping(source = "price", target = "price.amount")
@@ -18,4 +19,5 @@ public interface OrderDomainMapper {
     @Mapping(source = "price", target = "price.amount")
     @Mapping(source = "subTotal", target = "subTotal.amount")
     OrderItem commandOrderItemToOrderItem(CommandOrderItem commandOrderItem);
+
 }

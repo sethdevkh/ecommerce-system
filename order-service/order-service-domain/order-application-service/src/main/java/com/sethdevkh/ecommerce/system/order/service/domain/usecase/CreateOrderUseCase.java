@@ -1,6 +1,7 @@
 package com.sethdevkh.ecommerce.system.order.service.domain.usecase;
 
 import com.sethdevkh.ecommerce.system.domain.valueobject.BusinessId;
+import com.sethdevkh.ecommerce.system.domain.valueobject.Money;
 import com.sethdevkh.ecommerce.system.domain.valueobject.ProductId;
 import com.sethdevkh.ecommerce.system.order.service.domain.dto.CreateOrderCommand;
 import com.sethdevkh.ecommerce.system.order.service.domain.dto.CreateOrderResult;
@@ -20,28 +21,29 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class CreateOrderUseCase {
 
+    private final OrderDomainService orderDomainService;
+    private final OrderDomainMapper orderDomainMapper;
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
     private final BusinessRepository businessRepository;
-    private final OrderDomainService orderDomainService;
-    private final OrderDomainMapper orderDomainMapper;
 
     public CreateOrderResult execute(CreateOrderCommand createOrderCommand) {
-        log.info("Create Order Request: {}", createOrderCommand);
+        log.info("executing CreateOrderUseCase: {}", createOrderCommand);
 
-        // validate customer
+        // Validate customer
         customerRepository.findCustomer(createOrderCommand.customerId())
-                .orElseThrow(() -> new OrderDomainException("Customer Not Found"));
+                .orElseThrow(() -> new OrderDomainException("Could not find customer with ID: " + createOrderCommand.customerId()));
 
-        // validate business
+        // Validate business
         List<Product> products = createOrderCommand.items().stream()
                 .map(commandOrderItem -> Product.builder()
                         .id(new ProductId(commandOrderItem.productId()))
+                        .price(new Money(commandOrderItem.price()))
                         .build())
                 .toList();
 
@@ -51,21 +53,23 @@ public class CreateOrderUseCase {
                 .build();
 
         business = businessRepository.findBusiness(business)
-                .orElseThrow(()  -> new OrderDomainException("Business Not Found"));
+                .orElseThrow(() -> new OrderDomainException("Could not find business with ID: " + createOrderCommand.businessId()));
 
+        log.info("Found business: {}", business);
+
+        // Invoke order domain logic
         Order order = orderDomainMapper.createOrderCommandToOrder(createOrderCommand);
-
+        log.info("Order price: {}", order.getPrice().getAmount());
         OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, business);
-        Order initiatedOrder = orderCreatedEvent.getOrder();
+        log.info("Order created event: {}", orderCreatedEvent.getOrder().getId());
 
-        log.info("Order Created: {}", initiatedOrder);
-
-        Order savedOrder = orderRepository.saveOrder(initiatedOrder);
-
+        // Save order into database
+        Order savedOrder = orderRepository.saveOrder(order);
         if (savedOrder == null) {
-            throw new OrderDomainException("Order Not Saved");
+            throw  new OrderDomainException("Could not save order into database");
         }
 
         return new CreateOrderResult(savedOrder.getId().value());
     }
+
 }

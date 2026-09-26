@@ -10,7 +10,15 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface OrderWebMapper {
 
+    // Source = OrderCreateRequest
+    // Target = CreateOrderCommand
     @Mapping(source = "orderAddress", target = "deliveryAddress")
-    CreateOrderCommand orderCreateRequestToCreateOrderCommand(OrderCreateRequest orderCreateRequest);
-    OrderCreateResponse createOrderResultToOrderCreateResponse(CreateOrderResult createOrderResult);
+    CreateOrderCommand orderCreateRequestToCreateOrderCommand(
+            OrderCreateRequest orderCreateRequest
+    );
+
+    OrderCreateResponse createOrderResultToOrderCreateResponse(
+            CreateOrderResult createOrderResult
+    );
+
 }
