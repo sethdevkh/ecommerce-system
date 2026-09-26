@@ -14,6 +14,10 @@ public class Product extends BaseEntity<ProductId> {
         price = builder.price;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public static final class Builder {
         private ProductId id;
         private String name;
@@ -22,9 +26,7 @@ public class Product extends BaseEntity<ProductId> {
         private Builder() {
         }
 
-        public static Builder builder() {
-            return new Builder();
-        }
+
 
         public Builder id(ProductId val) {
             id = val;

@@ -1,13 +1,79 @@
 package com.sethdevkh.ecommerce.system.order.service.persistence.mapper;
 
-import com.sethdevkh.ecommerce.system.order.service.domain.entity.Customer;
-import com.sethdevkh.ecommerce.system.order.service.persistence.entity.CustomerEntity;
+import com.sethdevkh.ecommerce.system.domain.valueobject.StreetAddress;
+import com.sethdevkh.ecommerce.system.order.service.domain.entity.Order;
+import com.sethdevkh.ecommerce.system.order.service.domain.entity.OrderItem;
+import com.sethdevkh.ecommerce.system.order.service.persistence.entity.OrderAddressEntity;
+import com.sethdevkh.ecommerce.system.order.service.persistence.entity.OrderEntity;
+import com.sethdevkh.ecommerce.system.order.service.persistence.entity.OrderItemEntity;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface OrderPersistenceMapper {
 
-    @Mapping(source = "id", target = "id.value")
-    Customer customerEntityToCustomer(CustomerEntity customerEntity);
+    @Mapping(source = "id.value", target = "id")
+    @Mapping(source = "customerId.value", target = "customerId")
+    @Mapping(source = "businessId.value", target = "businessId")
+    @Mapping(source = "price.amount", target = "price")
+    @Mapping(source = "trackingId.value", target = "trackingId")
+    @Mapping(source = "failureMessages", target = "failureMessages", qualifiedByName = "mapFailureMessages")
+    @Mapping(source = "deliveryAddress", target = "orderAddress")
+    OrderEntity orderToOrderEntity(Order order);
+
+    @AfterMapping
+    default void linkOrderAssociations(@MappingTarget OrderEntity orderEntity) {
+        if (orderEntity.getItems() != null) {
+            orderEntity.getItems().forEach(item -> item.setOrder(orderEntity));
+        }
+    }
+
+    @Named("mapFailureMessages")
+    default String mapFailureMessages(List<String> failureMessages) {
+        if (failureMessages == null || failureMessages.isEmpty()) {
+            return null;
+        }
+        return String.join(",", failureMessages);
+    }
+
+
+    // Issue Map List<OrderItem> to List<OrderItemEntity>
+    @Mapping(source = "id.value", target = "id")
+    @Mapping(source = "product.id.value", target = "productId")
+    @Mapping(source = "price.amount", target = "price")
+    @Mapping(source = "subTotal.amount", target = "subTotal")
+    OrderItemEntity orderItemToOrderItemEntity(OrderItem orderItem);
+
+    @Mapping(target = "id.value", source = "id")
+    @Mapping(target = "customerId.value", source = "customerId")
+    @Mapping(target = "businessId.value", source = "businessId")
+    @Mapping(target = "price.amount", source = "price")
+    @Mapping(target = "trackingId.value", source = "trackingId")
+    @Mapping(target = "failureMessages", source = "failureMessages", qualifiedByName = "mapFailureMessagesToList")
+    Order orderEntityToOrder(OrderEntity orderEntity);
+
+    // Issue Map List<OrderItemEntity> to List<OrderItem>
+    @Mapping(target = "id.value", source = "id")
+    @Mapping(target = "product.id.value", source = "productId")
+    @Mapping(target = "price.amount", source = "price")
+    @Mapping(target = "subTotal.amount", source = "subTotal")
+    OrderItem orderItemEntityToOrderItem(OrderItemEntity orderItemEntity);
+
+    @Named("mapFailureMessagesToList")
+    default List<String> mapFailureMessagesToList(String failureMessages) {
+        if (failureMessages == null || failureMessages.isBlank()) {
+            return null;
+        }
+        return Arrays.stream(failureMessages.split(",")).toList();
+    }
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "order", ignore = true)
+    OrderAddressEntity deliveryAddressToOrderAddressEntity(StreetAddress streetAddress);
 }

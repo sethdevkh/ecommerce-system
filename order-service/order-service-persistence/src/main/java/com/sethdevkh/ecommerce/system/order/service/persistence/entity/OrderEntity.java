@@ -18,16 +18,17 @@ import java.util.UUID;
 public class OrderEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+//    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private UUID customerId;
     private UUID businessId;
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "order") // always use mapped by on Many side
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // always use mapped by on Many side
     private List<OrderItemEntity> items;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "order_address_id")
     private OrderAddressEntity orderAddress;
 
     private UUID trackingId;
