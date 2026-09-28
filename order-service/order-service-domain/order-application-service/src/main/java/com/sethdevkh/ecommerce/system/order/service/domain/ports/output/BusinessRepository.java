@@ -1,4 +1,4 @@
-package com.sethdevkh.ecommerce.system.order.service.domain.port.output;
+package com.sethdevkh.ecommerce.system.order.service.domain.ports.output;
 
 import com.sethdevkh.ecommerce.system.order.service.domain.entity.Business;
 

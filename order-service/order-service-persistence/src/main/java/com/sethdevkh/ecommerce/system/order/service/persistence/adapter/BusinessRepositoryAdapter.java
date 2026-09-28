@@ -1,7 +1,7 @@
 package com.sethdevkh.ecommerce.system.order.service.persistence.adapter;
 
 import com.sethdevkh.ecommerce.system.order.service.domain.entity.Business;
-import com.sethdevkh.ecommerce.system.order.service.domain.port.output.BusinessRepository;
+import com.sethdevkh.ecommerce.system.order.service.domain.ports.output.BusinessRepository;
 import com.sethdevkh.ecommerce.system.order.service.persistence.entity.BusinessEntity;
 import com.sethdevkh.ecommerce.system.order.service.persistence.mapper.BusinessPersistenceMapper;
 import com.sethdevkh.ecommerce.system.order.service.persistence.repositoy.BusinessJpaRepository;

@@ -1,6 +1,6 @@
 package com.sethdevkh.ecommerce.system.order.service.persistence.adapter;
 
-import com.sethdevkh.ecommerce.system.order.service.domain.port.output.OrderRepository;
+import com.sethdevkh.ecommerce.system.order.service.domain.ports.output.OrderRepository;
 import com.sethdevkh.ecommerce.system.order.service.domain.entity.Order;
 import com.sethdevkh.ecommerce.system.order.service.persistence.entity.OrderEntity;
 import com.sethdevkh.ecommerce.system.order.service.persistence.mapper.OrderPersistenceMapper;

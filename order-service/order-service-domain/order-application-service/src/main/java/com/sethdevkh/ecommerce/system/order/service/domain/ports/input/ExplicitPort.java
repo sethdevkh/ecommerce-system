@@ -1,4 +1,4 @@
-package com.sethdevkh.ecommerce.system.order.service.domain.port.input;
+package com.sethdevkh.ecommerce.system.order.service.domain.ports.input;
 
 import com.sethdevkh.ecommerce.system.order.service.domain.dto.CreateOrderCommand;
 
