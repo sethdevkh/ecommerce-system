@@ -17,27 +17,24 @@ services:
       - ecommerce-net
 
   nacos:
-    image: nacos/nacos-server:latest
-    container_name: nacos
+    image: nacos/nacos-server
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
-      - NACOS_AUTH_ENABLE=true
       - NACOS_AUTH_IDENTITY_KEY=serverIdentity
       - NACOS_AUTH_IDENTITY_VALUE=security
       - NACOS_AUTH_TOKEN=VGhpc0lzTXlDdXN0b21TZWNyZXRLZXkwMTIzNDU2Nzg=
-    ports:
-      - "8080:8080"  #Console port
-      - "8848:8848"  #Server port
-      - "9848:9848"  #gRPC port
     volumes:
-      - ./standalone-logs:/home/nacos/logs
-    networks:
-      - ecommerce-net
+      - nacos_data:/home/nacos/data
+      - ./standalone-logs/:/home/nacos/logs
+    ports:
+      - "8080:8080" # Console
+      - "8848:8848" # Server
+      - "9848:9848" # gRPC
 
 volumes:
   postgres_data:
-  standalone-logs:
+  nacos_data:
 
 # docker network create ecommerce-net
 networks:
