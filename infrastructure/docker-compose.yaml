@@ -32,8 +32,33 @@ services:
       - "8848:8848" # Server
       - "9848:9848" # gRPC
 
+  postgres:
+    image: postgres:16
+    container_name: keycloak_db
+    environment:
+      POSTGRES_DB: kc_db
+      POSTGRES_USER: useradmin
+      POSTGRES_PASSWORD: userpass
+    volumes:
+      - postgres_kc_data:/var/lib/postgresql/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: keycloak_app
+    command: start-dev # Use 'start' for absolute production with TLS/SSL configs
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/kc_db
+      KC_DB_USERNAME: useradmin
+      KC_DB_PASSWORD: userpass
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    ports:
+      - "9090:8080"
+
 volumes:
   postgres_data:
+  postgres_kc_data:
   nacos_data:
 
 # docker network create ecommerce-net
