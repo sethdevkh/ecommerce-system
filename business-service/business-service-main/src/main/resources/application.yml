@@ -1,14 +1,30 @@
 server:
-  port: 0
+  port: 8552
+  forward-headers-strategy: framework
 spring:
   application:
     name: business-service
   profiles:
-    active:
-      - dev
+    active: dev
+#  config:
+#    import:
+#      - nacos:business-service.yml
   cloud:
+#    nacos:
+#      config:
+#        file-extension: yml
+#        namespace: ${spring.profiles.active}
+#      discovery:
+#        server-addr: localhost:8848
+#        username: nacos
+#        password: 6090
+#        namespace: ${spring.profiles.active}
     nacos:
+      config:
+        file-extension: yaml
+        namespace: ${spring.profiles.active}
       discovery:
         server-addr: localhost:8848
         username: nacos
         password: 6090
+        namespace: ${spring.profiles.active}

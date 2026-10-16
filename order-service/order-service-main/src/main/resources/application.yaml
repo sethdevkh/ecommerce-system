@@ -1,13 +1,17 @@
 server:
   port: 8888
+  forward-headers-strategy: framework
+
 spring:
   application:
     name: order-service
+
   datasource:
     url: jdbc:postgresql://localhost:5432/db_order
     username: ecom_user
     password: ecom_password
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,8 +20,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         show_sql: true
         format_sql: true
+
   profiles:
-    active: prod
+    active: dev
   config:
     import:
       - nacos:order-service.yml
@@ -29,5 +34,5 @@ spring:
       discovery:
         server-addr: localhost:8848
         username: nacos
-        password: 1111
+        password: 6090
         namespace: ${spring.profiles.active}
