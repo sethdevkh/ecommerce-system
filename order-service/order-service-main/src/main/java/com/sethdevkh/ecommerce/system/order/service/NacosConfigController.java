@@ -18,7 +18,7 @@ public class NacosConfigController {
 //    @Value("${service.name}")
 //    private String serviceName;
 
-    @GetMapping
+    @GetMapping("/api/v1/config")
     public String nacosConfig() {
         return nacosConfigProps.getName();
     }

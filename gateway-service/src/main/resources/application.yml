@@ -8,6 +8,24 @@ spring:
   config:
     import:
       - nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+           issuer-uri: http://localhost:9090/realms/ecommerce
+        registration:
+          ecommerce-postman:
+            provider: keycloak
+            client-id: ecommerce -postman
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+              - email
+              - profile
+            redirect-uri: http://localhost:8585/login/oauth2/code/ecommerce -postman
+
   cloud:
     gateway:
       server:
