@@ -23,6 +23,7 @@
         <module>business-service</module>
         <module>customer-service</module>
         <module>gateway-service</module>
+        <module>users-service</module>
     </modules>
 
     <properties>
@@ -129,6 +130,26 @@
             <dependency>
                 <groupId>com.sethdevkh</groupId>
                 <artifactId>payment-service-restapi</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sethdevkh</groupId>
+                <artifactId>user-main</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sethdevkh</groupId>
+                <artifactId>user-controller</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sethdevkh</groupId>
+                <artifactId>user-biz</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sethdevkh</groupId>
+                <artifactId>user-entity</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

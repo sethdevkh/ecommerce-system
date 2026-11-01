@@ -1,5 +1,6 @@
 server:
   port: 8585
+  forward-headers-strategy: framework
 spring:
   application:
     name: gateway-service
@@ -8,6 +9,11 @@ spring:
   config:
     import:
       - nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
   security:
     oauth2:
@@ -18,36 +24,32 @@ spring:
         registration:
           ecommerce-postman:
             provider: keycloak
-            client-id: ecommerce -postman
+            client-id: ecommerce-postman
             authorization-grant-type: authorization_code
             scope:
               - openid
               - email
               - profile
-            redirect-uri: http://localhost:8585/login/oauth2/code/ecommerce -postman
+            redirect-uri: http://localhost:8585/login/oauth2/code/ecommerce-postman
 
   cloud:
     gateway:
+
       server:
         webflux:
           trusted-proxies: ".*"
           discovery:
             locator:
-              enabled: false # Should Gateway automatically create routes for every service registered in Eureka?
+              enabled: true # Should Gateway automatically create routes for every service registered in Eureka?
               lowerCaseServiceId: true # How the service ID is converted into a route path when discovery locator is enabled.
           routes:
-            - id: order-service
-              uri: lb://order-service
-              predicates:
-                - Path=/order-service/**
-              filters:
-                - RewritePath=/order-service/?(?<segment>.*), /$\{segment}
-            - id: business-service
-              uri: lb://business-service
-              predicates:
-                - Path=/business-service/**
-              filters:
-                - RewritePath=/business-service/?(?<segment>.*), /$\{segment}
+#          - id: vue.js
+#            uri: http://[::1]:5173
+#            predicates:
+#              - Path=/**
+
+          default-filters:
+            - TokenRelay=
 
     nacos:
       config:
@@ -66,11 +68,11 @@ management:
       access: read_only
 
 springdoc:
-#  api-docs:
-#    enabled: false
   swagger-ui:
     urls:
-      - name: Order Service
-        url: /v3/api-docs
-      - name: Business Service
-        url: /v3/api-docs
+#      - name: Order Service
+#        url: /order-service/v3/api-docs
+#      - name: Customer Service
+#        url: /customer-service/v3/api-docs
+      - name: User Service
+        url: /users-service/v3/api-docs
