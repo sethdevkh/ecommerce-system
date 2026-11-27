@@ -4,10 +4,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/test")
 public class TestController {
 
-    @RequestMapping("/test")
+    @RequestMapping
     public String test() {
         return "test";
     }

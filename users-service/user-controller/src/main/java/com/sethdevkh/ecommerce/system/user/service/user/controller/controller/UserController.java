@@ -1,5 +1,6 @@
 package com.sethdevkh.ecommerce.system.user.service.user.controller.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.sethdevkh.ecommerce.system.restapi.dto.PageResponse;
 import com.sethdevkh.ecommerce.system.user.service.user.dto.UserCreateRequest;
 import com.sethdevkh.ecommerce.system.user.service.user.dto.UserResponse;
@@ -9,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,6 +30,7 @@ public class UserController {
    @PatchMapping("/{id}")
    public UserResponse update(@PathVariable String id,
                               @RequestBody UserUpdateRequest userUpdateRequest) {
+      ResponseEntity
       return userService.update(id, userUpdateRequest);
    }
 
@@ -55,7 +58,12 @@ public class UserController {
    @GetMapping
    public PageResponse<UserResponse> getUsers(@RequestParam(defaultValue = "0", required = false) int pageNumber,
                                               @RequestParam(defaultValue = "15", required = false) int pageSize) {
-      return userService.getUsers(PageRequest.of(pageNumber, pageSize));
+       try {
+           Thread.sleep(500);
+       } catch (InterruptedException e) {
+           throw new RuntimeException(e);
+       }
+       return userService.getUsers(PageRequest.of(pageNumber, pageSize));
    }
 
 

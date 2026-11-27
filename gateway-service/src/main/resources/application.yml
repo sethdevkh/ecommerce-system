@@ -20,7 +20,7 @@ spring:
       client:
         provider:
           keycloak:
-           issuer-uri: http://localhost:9090/realms/ecommerce
+            issuer-uri: http://localhost:9090/realms/ecommerce
         registration:
           ecommerce-postman:
             provider: keycloak
@@ -33,6 +33,31 @@ spring:
             redirect-uri: http://localhost:8585/login/oauth2/code/ecommerce-postman
 
   cloud:
+
+    sentinel:
+      transport:
+        dashboard: localhost:8081
+        port: 8719
+      eager: true
+      web-context-unify: false
+      datasource:
+        sentinel-flow: # name of datasource
+          nacos: # dynamic datasource with nacos
+            server-addr: localhost:8848        # link to nacos
+            data-id: sentinel-flow                # data-id of config file in nacos
+            namespace: dev                        # namespace in nacos
+            group-id: DEFAULT_GROUP            # group-id in nacos
+            data-type: json                        # config format in nacos
+            rule-type: flow
+        sentinel-degrade:
+          nacos:
+            server-addr: localhost:8848
+            data-id: sentinel-degrade
+            namespace: ${spring.profiles.active}
+            group-id: DEFAULT_GROUP
+            data-type: json
+            rule-type: degrade
+
     gateway:
 
       server:
@@ -51,6 +76,7 @@ spring:
           default-filters:
             - TokenRelay=
 
+
     nacos:
       config:
         file-extension: yaml
@@ -64,15 +90,17 @@ spring:
 management.endpoints.web.exposure.include: "health,info,gateway"
 management:
   endpoint:
+    gateway:
+      access: read_only
     auditevents:
       access: read_only
 
 springdoc:
   swagger-ui:
     urls:
-#      - name: Order Service
-#        url: /order-service/v3/api-docs
-#      - name: Customer Service
-#        url: /customer-service/v3/api-docs
+      #      - name: Order Service
+      #        url: /order-service/v3/api-docs
+      #      - name: Customer Service
+      #        url: /customer-service/v3/api-docs
       - name: User Service
         url: /users-service/v3/api-docs

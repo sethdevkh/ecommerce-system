@@ -73,6 +73,12 @@
 
             <dependency>
                 <groupId>com.sethdevkh</groupId>
+                <artifactId>customer-service-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sethdevkh</groupId>
                 <artifactId>order-application-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
