@@ -1,14 +1,27 @@
 server:
-  port: 0
+  port: 7777
 spring:
   application:
     name: customer-service
   profiles:
-    active:
-      - dev
+    active: dev
   cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8081
+        port: 8719
+      eager: true
+      web-context-unify: false
+
     nacos:
+      config:
+        file-extension: yaml
+        namespace: ${spring.profiles.active}
       discovery:
         server-addr: localhost:8848
         username: nacos
         password: 6090
+        namespace: ${spring.profiles.active}
+feign:
+  sentinel:
+    enabled: true
